@@ -5,10 +5,22 @@
   text-align: center;
 }
 
+/* ユーザー登録（入力フォーム） */
+
 .label-signup {
   margin-top: 5px;
 }
 
 .btn-signup {
+  margin-top: 10px;
+}
+
+/* ユーザー情報の更新フォーム */
+
+.label-user--edit {
+  margin-top: 5px;
+}
+
+.btn-user--edit {
   margin-top: 10px;
 }
