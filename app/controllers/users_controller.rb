@@ -1,8 +1,13 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update] # メソッドはprivateキーワード下に定義
-  before_action :logged_in_user, only: [:show, :edit, :update] # メソッドはprivateキーワード下に定義
+  before_action :set_user, only: [:show, :edit, :update, :destroy] # メソッドはprivateキーワード下に定義
+  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy] # メソッドはprivateキーワード下に定義
   before_action :correct_user, only: [:edit, :update] # メソッドはprivateキーワード下に定義
-
+  before_action :admin_user, only: :destroy # メソッドはprivateキーワード下に定義
+  
+  def index
+    @users = User.paginate(page: params[:page]) # ページネーション前は、@users = User.all
+  end
+  
   def show
     # @user = User.find(params[:id])  # before_action :set_user にまとめて記述
   end
@@ -36,6 +41,12 @@ class UsersController < ApplicationController
     end
   end
   
+  def destroy
+    @user.destroy
+    flash[:success] = "#{@user.name}のデータを削除しました。"
+    redirect_to users_url
+  end
+  
   private
   
     def user_params
@@ -63,5 +74,9 @@ class UsersController < ApplicationController
       # @user = User.find(params[:id])
       # redirect_to(root_url) unless @user == current_user
       redirect_to(root_url) unless current_user?(@user) # app/helpers/sessions_helper.rb の current_user? を利用
+    end
+    
+    def admin_user
+      redirect_to root_url unless current_user.admin?
     end
 end
