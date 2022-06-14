@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy] # メソッドはprivateキーワード下に定義
-  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy] # メソッドはprivateキーワード下に定義
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info] # メソッドはprivateキーワード下に定義
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :edit_basic_info, :update_basic_info] # メソッドはprivateキーワード下に定義
   before_action :correct_user, only: [:edit, :update] # メソッドはprivateキーワード下に定義
-  before_action :admin_user, only: :destroy # メソッドはprivateキーワード下に定義
+  before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info] # メソッドはprivateキーワード下に定義
   
   def index
     @users = User.paginate(page: params[:page]) # ページネーション前は、@users = User.all
@@ -47,6 +47,12 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
   
+  def edit_basic_info
+  end
+
+  def update_basic_info
+  end  
+  
   private
   
     def user_params
@@ -76,6 +82,7 @@ class UsersController < ApplicationController
       redirect_to(root_url) unless current_user?(@user) # app/helpers/sessions_helper.rb の current_user? を利用
     end
     
+    # システム管理権限所有かどうか判定します。
     def admin_user
       redirect_to root_url unless current_user.admin?
     end
