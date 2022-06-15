@@ -3,15 +3,16 @@ class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :edit_basic_info, :update_basic_info] # メソッドはprivateキーワード下に定義
   before_action :correct_user, only: [:edit, :update] # メソッドはprivateキーワード下に定義
   before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info] # メソッドはprivateキーワード下に定義
+  before_action :set_one_month, only: :show
   
   def index
     @users = User.paginate(page: params[:page]) # ページネーション前は、@users = User.all
   end
   
   def show
-    # @user = User.find(params[:id])  # before_action :set_user にまとめて記述
-    @first_day = Date.current.beginning_of_month
-    @last_day = @first_day.end_of_month
+    # @user = User.find(params[:id]) # before_action :set_user にまとめて記述
+    # @first_day = Date.current.beginning_of_month # application_controllerへ移動
+    # @last_day = @first_day.end_of_month # application_controllerへ移動
   end
   
   def new
