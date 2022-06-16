@@ -13,6 +13,7 @@ class UsersController < ApplicationController
     # @user = User.find(params[:id]) # before_action :set_user にまとめて記述
     # @first_day = Date.current.beginning_of_month # application_controllerへ移動
     # @last_day = @first_day.end_of_month # application_controllerへ移動
+    @worked_sum = @attendances.where.not(started_at: nil).count
   end
   
   def new
